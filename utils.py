@@ -1,35 +1,15 @@
 import json
 
-from models.operation import Operation
 
-
-def get_all_operations(path):
+def read_json_file(path):
     """
-    Функция получения операций из файла
-    :param path: путь к файлу
-    :return: json с операциями
+    Функция чтения JSON файла
+    :param path: str путь
+    :return: list[dict] список со словарями или пустой список
     """
-    with open(path, encoding="utf=8") as file:
-        return json.load(file)
-
-
-def get_operations_instances(operations):
-    """
-    Получает список экземпляров класса
-    :param operations: список операций
-    :return: список экземпляров класса
-    """
-    operations_instances = []
-    for operation in operations:
-        if operation:
-            operations_instance = Operation(
-                pk=operation['id'],
-                state=operation['state'],
-                date=operation['date'],
-                operation_amount=operation['operationAmount'],
-                description=operation['description'],
-                from_=operation.get('from', ''),
-                to=operation['to']
-            )
-            operations_instances.append(operations_instance)
-    return operations_instances
+    with open(path) as json_file:
+        data = json.load(json_file)
+        if isinstance(data, list):
+            return data
+        else:
+            return []
